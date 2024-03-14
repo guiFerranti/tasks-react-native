@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 import commonStyles from '../commonStyles'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -15,6 +15,7 @@ export default props => {
     const formatredDate = moment(data).locale('pt-br').format('ddd, D [de] MMMM') 
 
     return (
+
         <View style={styles.container}>
             <TouchableWithoutFeedback
                 onPress={() => props.toggleTask(props.id)}

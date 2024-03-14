@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, ImageBackground, StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native';
 
 import todayImage from '../../assets/imgs/today.jpg'
 import moment from 'moment';
@@ -31,6 +31,24 @@ export default class TaskList extends Component {
             doneAt: new Date(),
             },
         ]
+    }
+
+    addTask = newTask => {
+        if(!newTask.desc.trim() || !newTask.desc) {
+            Alert.alert('Dados inválidos', 'Descrição não informada!')
+            return
+        }
+
+        const tasks = [...this.state.tasks]
+
+        tasks.push({
+            id: Math.random(),
+            desc: newTask.desc,
+            estimateAt: newTask.date,
+            doneAt: null
+        })
+
+        this.setState({ tasks, showAddTaskModal: false }, this.filterTasks)
     }
 
     componentDidMount = () => {
@@ -75,6 +93,7 @@ export default class TaskList extends Component {
                 <AddTask  
                     isVisible={this.state.showAddTaskModal} 
                     onCancel={() => this.setState({ showAddTaskModal: false })}
+                    onSave={this.addTask}
                 />
                 <ImageBackground source={todayImage} style={styles.background}>
 
@@ -105,7 +124,7 @@ export default class TaskList extends Component {
                             {...item} /> }
                     />
                 </View>
-                <TouchableOpacity style={styles.addButton}
+                <TouchableOpacity style={styles.addButton} activeOpacity={0.7}
                     onPress={() => 
                         this.setState({ showAddTaskModal: true })
                     }
